@@ -1,0 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI CD PIPELINE FOR JAVA WEB APPLICATION
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "develop" ]
+
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  Sample_CICD_Pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setp 1 :Install java
+        run: | 
+          sudo apt-get update -y 
+          sudo apt install openjdk-11-jdk-headless -y
+      - name: Setp 2 :Checking Java Version
+        run: |
+          sudo java -version
+      - name: Setp 3 :Install Maven
+        run: |
+          sudo apt-get install maven -y
+      - name: Setp4 :Checking Maven Version
+        run: |
+          mvn --version
+      - name: Setp5 :create archive file
+        run: |
+          mvn package
+          mkdir dev && cp target/*.war dev
