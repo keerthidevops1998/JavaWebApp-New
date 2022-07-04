@@ -37,4 +37,4 @@ jobs:
           
       - name: Step6 :Deploy war to GCP Tomcat Server
         run: |
-          sshpass -p "keerthi_" scp -u dev/.*war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps
+          sshpass -p "keerthi_" scp  keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/ dev/.*war
