@@ -37,4 +37,4 @@ jobs:
           
       - name: Step6 :Deploy war to GCP Tomcat Server
         run: |
-          scp -o StrictHostKeyChecking=no dev/.*war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps
+          scp -i $MY_KEY -o StrictHostKeyChecking=no dev/.*war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps
