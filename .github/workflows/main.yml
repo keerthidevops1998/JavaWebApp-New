@@ -34,6 +34,10 @@ jobs:
         run: |
           mvn package
           mkdir dev && cp target/*.war dev
+      - name: Step 5 :Generate SSH key Gen and Copy ID
+        run: |
+          ssh-keygen -f ~/.ssh/id_rsa 
+          ssh-copy-id -i ~/.ssh/id_rsa keerthi_devops26@34.66.133.171
       - name: Step6 :Install sshpass
         run: |
           sudo apt-get install sshpass -y
