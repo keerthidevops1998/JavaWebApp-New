@@ -39,4 +39,4 @@ jobs:
           sudo apt-get install sshpass -y
       - name: Step7 :Deploy war to GCP Tomcat Server
         run: |
-          sshpass -p 'keerthi_' scp keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/ dev/*.war
+          sshpass -p 'keerthi_' scp StrictHostKeyChecking=no keerthi_devops26@34.66.133.171/opt/tomcat/webapps/%20dev/*.war
