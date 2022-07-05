@@ -36,7 +36,7 @@ jobs:
           mkdir dev && cp target/*.war dev
       - name: Step6 :Install sshpass
         run: |
-          apt-get install sshpass -y
+          sudo apt-get install sshpass -y
       - name: Step7 :Deploy war to GCP Tomcat Server
         run: |
-          sh "sshpass -p 'keerthi_' scp keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/ dev/*.war "
+          sh "sshpass -p 'keerthi_' scp keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/ dev/*.war"
