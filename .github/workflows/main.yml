@@ -35,6 +35,6 @@ jobs:
       - name: Step6 :Deploy war to GCP Tomcat Server
         run: |
           echo $MY_KEY > keyfile.pem
-          chmod 400 keyfile
+          chmod 400 keyfile.pem
           scp -i keyfile.pem -o StrictHostKeyChecking=no dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
           rm -r keyfile
