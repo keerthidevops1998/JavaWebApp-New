@@ -1,15 +1,10 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI CD PIPELINE FOR JAVA WEB APPLICATION
-
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-
-
-  # Allows you to run this workflow manually from the Actions tab
+# Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
 jobs:
@@ -36,10 +31,9 @@ jobs:
           mkdir dev && cp target/*.war dev
       - name: Step 5 :Generate SSH key Gen and Copy ID
         run: |
-          mkdir sshkey
-          chmod 600 sshkey
-          ssh-keygen -t rsa -b 4096 -C "keerthi.devops26@gmail.com" -f sshkey/id_rsa -y
-          ssh-copy-id -i ssh-key/id_rsa.pub keerthi_devops26@34.66.133.171
+          mkdir -p $HOME/.ssh/mykey
+          ssh-keygen -t rsa -f $HOME/.ssh/mykey/rsa_key_file -y
+          ssh-copy-id -i $HOME/.ssh/mykey/rsa_key_file.pub keerthi_devops26@34.66.133.171
       - name: Step6 :Install sshpass
         run: |
           sudo apt-get install sshpass -y
