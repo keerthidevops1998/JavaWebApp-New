@@ -32,6 +32,8 @@ jobs:
       - name: Step5 :Install sshpass
         run: |
           sudo apt-get install sshpass -y
-      - name: Step7 :Deploy war to GCP Tomcat Server
+      - name: Step6 :Deploy war to GCP Tomcat Server
         run: |
-          scp -i $MY_KEY dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
+          echo $MY_KEY > keyfile
+          scp -i keyfile dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
+          rm -r keyfile
