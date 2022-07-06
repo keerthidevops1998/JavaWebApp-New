@@ -31,7 +31,7 @@ jobs:
           mkdir dev && cp target/*.war dev
       - name: Step 5 :Generate SSH key Gen and Copy ID
         run: |
-          ssh-keygen -f ~/.ssh/id_rsa
+          ssh-keygen -f ~/.ssh/id_rsa -N ""
           ssh-copy-id -i $HOME/.ssh/mykey/rsa_key_file.pub keerthi_devops26@34.66.133.171
       - name: Step6 :Install sshpass
         run: |
