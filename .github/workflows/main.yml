@@ -28,7 +28,9 @@ jobs:
       - name: Setp5 :create archive file
         run: |
           mvn package
-          mkdir dev && cp target/*.war dev
+      - name: Step6 :Deploy War to Deployment server tomcat
+        run: |
+          scp actions-runner/test_work/JavaAppWeb/JavaAppWeb/target/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps
       #- name: Step5 :Install sshpass
       #  run: |
       #    sudo apt-get install sshpass -y
