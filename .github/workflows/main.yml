@@ -37,7 +37,7 @@ jobs:
       - name: Step 5 :Generate SSH key Gen and Copy ID
         run: |
           mkdir sshkey
-          ssh-keygen -t rsa -b 4096 -C "keerthi.devops26@gmail.com" -f sshkey
+          ssh-keygen -t rsa -b 4096 -C "keerthi.devops26@gmail.com" -f sshkey -y
           ssh-copy-id -i sshkey keerthi_devops26@34.66.133.171
       - name: Step6 :Install sshpass
         run: |
