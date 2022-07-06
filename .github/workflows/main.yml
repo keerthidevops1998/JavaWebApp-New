@@ -9,7 +9,7 @@ on:
   
 jobs:
   Sample_CICD_Pipeline:
-    runs-on: ubuntu-latest
+    runs-on: github-runner
     steps:
       - uses: actions/checkout@v3
       - name: Setp 1 :Install java
@@ -29,12 +29,12 @@ jobs:
         run: |
           mvn package
           mkdir dev && cp target/*.war dev
-      - name: Step5 :Install sshpass
-        run: |
-          sudo apt-get install sshpass -y
-      - name: Step6 :Deploy war to GCP Tomcat Server
-        run: |
-          echo $MY_KEY > keyfile.pem
-          chmod 400 keyfile.pem
-          scp -i keyfile.pem -o StrictHostKeyChecking=no dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
-          rm -r keyfile
+      #- name: Step5 :Install sshpass
+      #  run: |
+      #    sudo apt-get install sshpass -y
+      #- name: Step6 :Deploy war to GCP Tomcat Server
+      #  run: |
+      #    echo $MY_KEY > keyfile.pem
+      #    chmod 400 keyfile.pem
+      #    scp -i keyfile.pem -o StrictHostKeyChecking=no dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
+      #    rm -r keyfile
