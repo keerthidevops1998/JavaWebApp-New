@@ -34,7 +34,7 @@ jobs:
           sudo apt-get install sshpass -y
       - name: Step6 :Deploy war to GCP Tomcat Server
         run: |
-          echo $MY_KEY > keyfile
+          echo $MY_KEY > keyfile.pem
           chmod 400 keyfile
-          scp -i keyfile -o StrictHostKeyChecking=no dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
+          scp -i keyfile.pem -o StrictHostKeyChecking=no dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
           rm -r keyfile
