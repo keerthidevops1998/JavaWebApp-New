@@ -39,7 +39,7 @@ jobs:
           mkdir sshkey
           chmod 600 sshkey
           ssh-keygen -t rsa -b 4096 -C "keerthi.devops26@gmail.com" -f sshkey/id_rsa -y
-          ssh-copy-id -i sshkey/id_rsa.pub keerthi_devops26@34.66.133.171
+          ssh-copy-id -i ssh-key/id_rsa.pub keerthi_devops26@34.66.133.171
       - name: Step6 :Install sshpass
         run: |
           sudo apt-get install sshpass -y
