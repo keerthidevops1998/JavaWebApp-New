@@ -38,8 +38,8 @@ jobs:
         run: |
           mkdir sshkey
           chmod 400 sshkey
-          ssh-keygen -t rsa -b 4096 -C "keerthi.devops26@gmail.com" -f sshkey -y
-          ssh-copy-id -i sshkey keerthi_devops26@34.66.133.171
+          ssh-keygen -t rsa -b 4096 -C "keerthi.devops26@gmail.com" -f sshkey/id_rsa.pub -y
+          ssh-copy-id -i sshkey/id_rsa.pub keerthi_devops26@34.66.133.171
       - name: Step6 :Install sshpass
         run: |
           sudo apt-get install sshpass -y
