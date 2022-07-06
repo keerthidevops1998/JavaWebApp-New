@@ -29,13 +29,9 @@ jobs:
         run: |
           mvn package
           mkdir dev && cp target/*.war dev
-      - name: Step 5 :Generate SSH key Gen and Copy ID
-        run: |
-          ssh-keygen -f ~/.ssh/id_rsa.pub -N ""
-          ssh-copy-id -i $HOME/.ssh/id_rsa.pub keerthi_devops26@34.66.133.171
-      - name: Step6 :Install sshpass
+      - name: Step5 :Install sshpass
         run: |
           sudo apt-get install sshpass -y
       - name: Step7 :Deploy war to GCP Tomcat Server
         run: |
-          sshpass -p 'keerthi_devops26@34.66.133.171' scp -o StrictHostKeyChecking=no -r dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
+          scp -i ${{ secrets.KEERTHI_DEVOPS26 }}sec  -o StrictHostKeyChecking=no -r dev/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps/
