@@ -30,7 +30,7 @@ jobs:
           mvn package
       - name: Step6 :Deploy War to Deployment server tomcat
         run: |
-          scp /home/keerthi_devops26/actions-runner/actions-runner/_work/JavaAppWeb/JavaAppWeb/target/*.war keerthi_devops26@35.222.159.151:/opt/tomcat/webapps
+          scp /home/keerthi_devops26/actions-runner/test_work/JavaAppWeb/JavaAppWeb/target/*.war keerthi_devops26@35.222.159.151:/opt/tomcat/webapps
       #- name: Step5 :Install sshpass
       #  run: |
       #    sudo apt-get install sshpass -y
