@@ -22,9 +22,12 @@ jobs:
       - name: Setp 3 :Install Maven
         run: |
           sudo apt-get install maven -y
-      - name: Setp4 :Checking Maven Version
+      - name: Setp 4 :Checking Maven Version
         run: |
           mvn --version
-      - name: step6:Install Docker 
+      - name: step 5:Install Docker 
         run: | 
           curl https://get.docker.com | bash
+      -  name: step 6:Checking docker version 
+         run: | 
+          docker --version 
