@@ -27,5 +27,4 @@ jobs:
           mvn --version
       - name: step6:Install Docker 
         run: | 
-          sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
+          wget https://get.docker.com | bash
