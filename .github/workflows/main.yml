@@ -33,7 +33,7 @@ jobs:
           scp /home/keerthi_devops26/actions-runner/test_work/JavaAppWeb/JavaAppWeb/target/*.war keerthi_devops26@34.66.133.171:/opt/tomcat/webapps
       #- name: Step5 :Install sshpass
       #  run: |
-      #    sudo apt-get install sshpass -y
+      #    sudo apt-get install sshpass 
       #- name: Step6 :Deploy war to GCP Tomcat Server
       #  run: |
       #    echo $MY_KEY > keyfile.pem
