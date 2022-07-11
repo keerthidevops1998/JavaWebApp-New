@@ -27,4 +27,4 @@ jobs:
           mvn --version
       - name: step6:Install Docker 
         run: | 
-          wget https://get.docker.com | bash
+          curl https://get.docker.com | bash
