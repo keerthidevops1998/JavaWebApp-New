@@ -28,6 +28,10 @@ jobs:
       - name: step 5:Install Docker 
         run: | 
           curl https://get.docker.com | bash
-      -  name: step 6:Checking docker version 
-         run: | 
+      - name: step 6:Checking docker version 
+        run: | 
           docker --version 
+      - name: step 7:Create a file named Dockerfile 
+        run: | 
+         docker build -t myimage1 .
+
