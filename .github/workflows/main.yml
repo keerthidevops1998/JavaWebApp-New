@@ -33,5 +33,5 @@ jobs:
           docker --version 
       - name: step 7:Create a file named Dockerfile 
         run: | 
-         docker build -t myimage1 .
+         sudo docker build -t myimage1 .
 
