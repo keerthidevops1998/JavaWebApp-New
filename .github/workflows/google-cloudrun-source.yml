@@ -15,6 +15,7 @@ env:
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
   GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
   GCP_REPO: gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE
+  TAG: latest
   
 jobs:
   build:
@@ -45,19 +46,19 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - name: Build Docker image
-        run: docker build -f Dockerfile -t '$DOCKER_REPO':latest .
+        run: docker build -f Dockerfile -t $DOCKER_REPO:$TAG .
       - name: Publish Docker image
-        run: docker push $DOCKER_REPO:latest
+        run: docker push $DOCKER_REPO:$TAG
         #
       - name: Build Docker image for GCR
-        run: docker build -f Dockerfile -t $GCR_REPO:latest .
+        run: docker build -f Dockerfile -t $GCR_REPO:$TAG .
       - name: Google Auth
         id: auth
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
       - name: Publish GCR image
-        run: docker push $GCP_REPO:latest
+        run: docker push $GCP_REPO:$TAG
         #
 
   deploy:
