@@ -6,7 +6,7 @@ on:
       - "main"
 
 env:
-  PROJECT_ID: ${{ secrets.RUN_PROJECT }}  # TODO: update Google Cloud project id
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}  # TODO: update Google Cloud project id
   SERVICE: javawebapp-new #keerthidevops # TODO: update Cloud Run service name
   REGION: us-central1-a # TODO: update Cloud Run service region
   DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
@@ -14,7 +14,7 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
   GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
-  GCP_REPO: 'us.gcr.io/${{ secrets.RUN_PROJECT }}/javawebapp-new'
+  GCP_REPO: 'us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/javawebapp-new'
   
 jobs:
   build:
@@ -49,7 +49,7 @@ jobs:
       - name: Publish Docker image
         run: docker push $DOCKER_REPO
       - name: Tagging Docker image for GCR
-        run: docker tag $DOCKER_REPO $GCR_REPO
+        run: docker tag $DOCKER_REPO:latest $GCR_REPO:latest
       - name: Google Auth
         id: auth
         uses: 'google-github-actions/auth@v0'
