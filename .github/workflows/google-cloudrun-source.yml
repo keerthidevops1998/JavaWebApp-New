@@ -1,49 +1,3 @@
-# This workflow will deploy source code on Cloud Run when a commit is pushed to the "main" branch
-#
-# Overview:
-#
-# 1. Authenticate to Google Cloud
-# 2. Deploy it to Cloud Run
-#
-# To configure this workflow:
-#
-# 1. Ensure the required Google Cloud APIs are enabled:
-#
-#    Cloud Run            run.googleapis.com
-#    Cloud Build          cloudbuild.googleapis.com
-#    Artifact Registry    artifactregistry.googleapis.com
-#
-# 2. Create and configure Workload Identity Federation for GitHub (https://github.com/google-github-actions/auth#setting-up-workload-identity-federation)
-#
-# 3. Ensure the required IAM permissions are granted
-#
-#    Cloud Run
-#      roles/run.admin
-#      roles/iam.serviceAccountUser     (to act as the Cloud Run runtime service account)
-#
-#    Cloud Build
-#      roles/cloudbuild.builds.editor
-#
-#    Cloud Storage
-#      roles/storage.objectAdmin
-#
-#    Artifact Registry
-#      roles/artifactregistry.admin     (project or repository level)
-#
-#    NOTE: You should always follow the principle of least privilege when assigning IAM roles
-#
-# 4. Create GitHub secrets for WIF_PROVIDER and WIF_SERVICE_ACCOUNT
-#
-# 5. Change the values for the SERVICE and REGION environment variables (below).
-#
-# For more support on how to run this workflow, please visit https://github.com/marketplace/actions/deploy-to-cloud-run
-#
-# Further reading:
-#   Cloud Run runtime service account   - https://cloud.google.com/run/docs/securing/service-identity
-#   Cloud Run IAM permissions           - https://cloud.google.com/run/docs/deploying-source-code#permissions_required_to_deploy
-#   Cloud Run builds from source        - https://cloud.google.com/run/docs/deploying-source-code
-#   Principle of least privilege        - https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege
-
 name: Deploy to Cloud Run from Source
 
 on:
@@ -53,74 +7,73 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}  # TODO: update Google Cloud project id
-  SERVICE: cloud-run-github # TODO: update Cloud Run service name
+  SERVICE: keerthi-devops # TODO: update Cloud Run service name
   REGION: us-central1-a # TODO: update Cloud Run service region
+  DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASS: $${{ secrets.DOCKER_PASS }}
+  GCP_CREDS: $${{ secrets.GCP_CREDENTIALS }}
 
 jobs:
-  setup-build-deploy:
-    name: Setup, Build and Deploy
-    runs-on: ubuntu-latest
-    # Add 'id-token' with the intended permissions for workload identity federation
+  build:
+    name: Building Code
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.4
+      - name: Maven Package
+        run: mvn -B clean package -DskipTests
+      - name: Maven Verify
+        run: mvn -B clean verify -Pintegration-test
 
+  docker:
+    name: Publish - Docker Hub
+    runs-on: self-hosted
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.4
+      - name: Login to Docker Hub
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - name: Build Docker image
+        run: docker build -t $DOCKER_REPO:latest -t $DOCKER_REPO:latest .
+      - name: Publish Docker image
+        run: docker push $DOCKER_REPO:latest
+
+  deploy:
+    # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
-
+      
+    #runs-on: self-hosted
+    needs: [docker]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-#      - name: Google Auth
-#        id: auth
-#        uses: 'google-github-actions/auth@v0'
-#        with:
-#          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-#          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '$GCP_CREDS'
 
-      # NOTE: Alternative option - authentication via credentials json
-      # - name: Google Auth
-      #   id: auth
-      #   uses: 'google-github-actions/auth@v0'
-      #   with:
-      #     credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-
-#      - name: Deploy to Cloud Run
-#        id: deploy
-#        uses: google-github-actions/deploy-cloudrun@v0
-#        with:
-#          service: ${{ env.SERVICE }}
-#          region: ${{ env.REGION }}
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: $SERVICE
+          region: $REGION
           # NOTE: If required, update to the appropriate source folder
-#          source: ./
+          image: '$$DOCKER_REPO:latest'
 
       # If required, use the Cloud Run url output in later steps
-#      - name: Show Output
-#        run: echo ${{ steps.deploy.outputs.url }}
-
-    # Setup gcloud CLI
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        version: '290.0.1'
-        service_account_key: ${{ secrets.RUN_SA_KEY }}
-        project_id: ${{ secrets.RUN_PROJECT }}
-
-    # Build and push image to Google Container Registry
-    - name: Build
-      run: |-
-        gcloud builds submit \
-          --quiet \
-          --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
-      with:
-        source: ./
-    # Deploy image to Cloud Run
-    - name: Deploy
-      run: |-
-        gcloud run deploy "$SERVICE_NAME" \
-          --quiet \
-          --region "$RUN_REGION" \
-          --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
-          --platform "managed" \
-          --allow-unauthenticated
-# If required, use the Cloud Run url output in later steps
-    - name: Show Output
-      run: echo ${{ steps.deploy.outputs.url }}
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
