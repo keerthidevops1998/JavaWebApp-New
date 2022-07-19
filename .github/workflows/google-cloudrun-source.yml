@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}  # TODO: update Google Cloud project id
-  SERVICE: keerthi-devops # TODO: update Cloud Run service name
+  SERVICE: keerthi_devops # TODO: update Cloud Run service name
   REGION: us-central1-a # TODO: update Cloud Run service region
   DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
