@@ -14,7 +14,7 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
   GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
-  GCP_REPO: us.gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
+  GCP_REPO: 'us.gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}'
   
 jobs:
   build:
