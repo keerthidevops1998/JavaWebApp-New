@@ -14,7 +14,7 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
   GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
-
+  GCP_REPO: us.gcr.io/$PROJECT_ID/$SERVICE
 jobs:
   build:
     name: Building Code
@@ -47,6 +47,15 @@ jobs:
         run: docker build -f Dockerfile -t $DOCKER_REPO .
       - name: Publish Docker image
         run: docker push $DOCKER_REPO
+      - name: Tagging Docker image for GCR
+        run: docker tag -t $DOCKER_REPO $GCP_REPO
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+         credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Publish GCR image
+        run: docker push $GCP_REPO
 
   deploy:
     # Add 'id-token' with the intended permissions for workload identity federation
@@ -73,7 +82,7 @@ jobs:
           region: ${{ env.REGION }}
           # NOTE: If required, update to the appropriate source folder
           #image: ${{ env.DOCKER_REPO }}
-          image: docker.io/k1998/javawebapp
+          image: ${{ env.GCR_REPO }}:latest
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
