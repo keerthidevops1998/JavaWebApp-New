@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>JavaProject</groupId>
   <artifactId>javademoproject</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>javademoproject Maven Webapp</name>
+  <name>JavaWebApp-New</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
