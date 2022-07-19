@@ -14,7 +14,7 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
   GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
-  GCP_REPO: 'us.gcr.io/$PROJECT_ID/$SERVICE'
+  #GCP_REPO: 'us.gcr.io/$PROJECT_ID/$SERVICE'
   
 jobs:
   build:
@@ -49,7 +49,7 @@ jobs:
       - name: Publish Docker image
         run: docker push $DOCKER_REPO
       - name: Tagging Docker image for GCR
-        run: docker tag $DOCKER_REPO $GCP_REPO
+        run: docker tag $DOCKER_REPO us.gcr.io/$PROJECT_ID/$SERVICE
       - name: Google Auth
         id: auth
         uses: 'google-github-actions/auth@v0'
