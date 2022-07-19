@@ -14,7 +14,6 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
   GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
-  GCP_EMAIL: ${{ secrets.GCP_SA_EMAIL }} 
 
 jobs:
   build:
@@ -64,8 +63,7 @@ jobs:
         id: auth
         uses: 'google-github-actions/auth@v0'
         with:
-          gcp_email: '$GCP_SA_EMAIL'
-          credentials_json: '$GCP_CREDS'
+         service_account_key: ${{ env.GCP_CREDS }}
 
       - name: Deploy to Cloud Run
         id: deploy
