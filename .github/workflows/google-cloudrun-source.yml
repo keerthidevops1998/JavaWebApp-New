@@ -45,7 +45,7 @@ jobs:
       - name: Build Docker image
         run: docker build -f Dockerfile -t $DOCKER_REPO .
       - name: Publish Docker image
-        run: docker push $DOCKER_REPO:latest
+        run: docker push $DOCKER_REPO
 
   deploy:
     # Add 'id-token' with the intended permissions for workload identity federation
@@ -71,7 +71,7 @@ jobs:
           service: $SERVICE
           region: $REGION
           # NOTE: If required, update to the appropriate source folder
-          image: '$DOCKER_REPO:latest'
+          image: '$DOCKER_REPO'
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
