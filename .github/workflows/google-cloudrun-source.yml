@@ -11,8 +11,8 @@ env:
   REGION: us-central1-a # TODO: update Cloud Run service region
   DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
-  DOCKER_PASS: $${{ secrets.DOCKER_PASS }}
-  GCP_CREDS: $${{ secrets.GCP_CREDENTIALS }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
 
 jobs:
   build:
