@@ -74,7 +74,6 @@ jobs:
           # NOTE: If required, update to the appropriate source folder
           #image: ${{ env.DOCKER_REPO }}
           image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
-          repository-format: docker
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
