@@ -12,8 +12,8 @@ env:
   DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-  #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
-  GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
+  GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
+  #GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
 
 jobs:
   build:
