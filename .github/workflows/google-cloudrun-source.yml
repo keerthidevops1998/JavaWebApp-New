@@ -48,8 +48,8 @@ jobs:
         run: docker build -f Dockerfile -t $DOCKER_REPO .
       - name: Publish Docker image
         run: docker push $DOCKER_REPO
-      - name: Tagging Docker image for GCR
-        run: docker tag $DOCKER_REPO:latest $GCR_REPO:latest
+      - name: Build Docker image for GCR
+        run: docker build -f Dockerfile -t $GCR_REPO .
       - name: Google Auth
         id: auth
         uses: 'google-github-actions/auth@v0'
