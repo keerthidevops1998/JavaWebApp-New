@@ -93,32 +93,26 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           
-#      - name: 'Setup Cloud SDK'
-#        uses: 'google-github-actions/setup-gcloud@v0'
-#      - name: 'Deploy to Cloud Run'
-#        run: |-
-#          gcloud run deploy $CLOUDRUN_SERVICE \
-#            --region $REGION \
-#            --image gcr.io/$PROJECT_ID/$GCR_REPO_NAME \
-#            --platform managed \
-#            --set-env-vars NAME="javawebapp-new-1"
-            
-#      - name: Google Auth
-#        id: auth
-#        uses: 'google-github-actions/auth@v0'
+      - name: 'Setup Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: 'Deploy to Cloud Run'
+        run: |-
+          gcloud run deploy $CLOUDRUN_SERVICE \
+            --region $REGION \
+            --image gcr.io/$PROJECT_ID/$GCR_REPO_NAME:$TAG \
+            --platform managed \
+            --set-env-vars NAME="javawebapp-new-1"
+
+#      - name: Deploy to Cloud Run
+#        id: deploy
+#        uses: google-github-actions/deploy-cloudrun@v0
 #        with:
-#         credentials_json: ${{ secrets.GCP_SA_KEY }}
-#
-      - name: Deploy to Cloud Run
-        id: deploy
-        uses: google-github-actions/deploy-cloudrun@v0
-        with:
-          service: ${{ env.CLOUDRUN_SERVICE }}
-          region: ${{ env.REGION }}
+#          service: ${{ env.CLOUDRUN_SERVICE }}
+#          region: ${{ env.REGION }}
           # NOTE: If required, update to the appropriate source folder
           #image: ${{ env.DOCKER_REPO }}
-          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.GCR_REPO_NAME }}:${{ env.TAG }}
-          env_vars: 'NAME="javawebapp-new-1"'
+#          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.GCR_REPO_NAME }}:${{ env.TAG }}
+#          env_vars: 'NAME="javawebapp-new-1"'
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
