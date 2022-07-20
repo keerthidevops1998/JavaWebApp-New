@@ -9,7 +9,8 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}  # TODO: update Google Cloud project id
   SERVICE: javawebapp-new #keerthidevops # TODO: update Cloud Run service name
   REGION: us-central1-a # TODO: update Cloud Run service region
-  DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+  #DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+  DOCKER_REPO: k1998/javawebapp
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
@@ -45,10 +46,10 @@ jobs:
           java-version: 11.0.4
       - name: Login to Docker Hub
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - name: Build Docker image
-        run: docker build -f Dockerfile -t "$DOCKER_REPO:$TAG" .
-      - name: Publish Docker image
-        run: docker push "$DOCKER_REPO:$TAG"
+      - name: Build and push Docker image to dockerhub
+        run: |
+          docker build -f Dockerfile -t $DOCKER_REPO:$TAG .
+          docker push $DOCKER_REPO:$TAG
         #
       - uses: RafikFarhad/push-to-gcr-github-action@v4.1
         with:
