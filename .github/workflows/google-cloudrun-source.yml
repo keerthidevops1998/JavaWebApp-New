@@ -15,8 +15,10 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   #GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
   GCP_CREDS: ${{ secrets.GCP_SA_KEY }}
-  GCP_REPO: gcr.io/${{ secrets.GCP_PROJECT_ID }}/$SERVICE
+  GCR_REPO_NAME: javawebapp-new
+  GCP_REPO: gcr.io/${{ secrets.GCP_PROJECT_ID }}/$GCR_REPO_NAME
   TAG: latest
+  
   
 jobs:
   build:
@@ -56,7 +58,7 @@ jobs:
           gcloud_service_key: ${{ secrets.GCP_SA_KEY }} # can be base64 encoded or plain text
           registry: gcr.io
           project_id: ${{ env.PROJECT_ID }}
-          image_name: ${{ env.SERVICE }}
+          image_name: ${{ env.GCR_REPO_NAME }}
           image_tag: latest
           dockerfile: Dockerfile
           context: .
@@ -98,7 +100,7 @@ jobs:
           region: ${{ env.REGION }}
           # NOTE: If required, update to the appropriate source folder
           #image: ${{ env.DOCKER_REPO }}
-          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ env.TAG }}
+          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.GCR_REPO_NAME }}:${{ env.TAG }}
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
