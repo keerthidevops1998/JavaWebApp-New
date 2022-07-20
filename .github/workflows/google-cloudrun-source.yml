@@ -101,7 +101,7 @@ jobs:
             --region $REGION \
             --image gcr.io/$PROJECT_ID/$GCR_REPO_NAME:$TAG \
             --platform managed \
-            --set-env-vars NAME="javawebapp-new-1"
+            --set-env-vars NAME="javawebappnew1"
 
 #      - name: Deploy to Cloud Run
 #        id: deploy
