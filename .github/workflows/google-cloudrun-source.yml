@@ -55,8 +55,8 @@ jobs:
         with:
           gcloud_service_key: ${{ secrets.GCP_SA_KEY }} # can be base64 encoded or plain text
           registry: gcr.io
-          project_id: $PROJECT_ID
-          image_name: $SERVICE
+          project_id: ${{ env.PROJECT_ID }}
+          image_name: ${{ env.SERVICE }}
           image_tag: latest
           dockerfile: Dockerfile
           context: .
