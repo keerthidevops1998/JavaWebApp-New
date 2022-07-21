@@ -6,10 +6,10 @@ on:
       - "main"
 
 env:
-  DOCKER_REPO: ${{secrets.DOCKER_REPO}}     # k1998/javawebapp
+  DOCKER_REPO: k1998/javawebapp     # ${{secrets.DOCKER_REPO}} 
   DOCKER_USER: ${{secrets.DOCKER_USER}}
   DOCKER_PASS: ${{secrets.DOCKER_PASS}}
-  PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
+  GCP_PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
   GCP_CR_SVC_NAME: javawebapp-new-1 
   GCP_REGION: us-central1-a 
   GCP_CREDS: ${{secrets.GCP_SA_KEY}}
@@ -58,7 +58,7 @@ jobs:
         with:
           gcloud_service_key: ${{ env.GCP_CREDS }} # can be base64 encoded or plain text
           registry: gcr.io
-          project_id: ${{ env.PROJECT_ID }}
+          project_id: ${{ env.GCP_PROJECT_ID }}
           image_name: ${{ env.GCP_GCR_IMAGE_NAME }}
           image_tag: ${{ env.IMAGE_TAG }}
           dockerfile: Dockerfile
@@ -87,7 +87,7 @@ jobs:
         run: |-
           gcloud run deploy $GCP_CR_SVC_NAME \
             --region $REGION \
-            --image $GCP_GCR_REPO_URL:$IMAGE_TAG \ #gcr.io/$PROJECT_ID/$GCR_REPO_NAME:$TAG \
+            --image $GCP_GCR_REPO_URL:$IMAGE_TAG \ #gcr.io/$GCP_PROJECT_ID/$GCR_REPO_NAME:$TAG \
             --platform managed \
             --set-env-vars NAME="javawebapp-new-1"
 
@@ -98,7 +98,7 @@ jobs:
 #          service: ${{ env.GCP_CR_SVC_NAME }}
 #          region: ${{ env.REGION }}
           # NOTE: If required, update to the appropriate source folder
-#          image: 'gcr.io/${{ env.PROJECT-ID }}/${{ env.GCP_GCR_IMAGE_NAME }}:${{ env.IMAGE_TAG }}'
+#          image: 'gcr.io/${{ env.GCP_PROJECT-ID }}/${{ env.GCP_GCR_IMAGE_NAME }}:${{ env.IMAGE_TAG }}'
 #          env_vars: 'NAME="javawebapp-new-1"'
 
       # If required, use the Cloud Run url output in later steps
