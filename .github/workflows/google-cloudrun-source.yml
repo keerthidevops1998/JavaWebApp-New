@@ -48,7 +48,7 @@ jobs:
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - name: Build Docker image to dockerhub
         run: |-
-          echo "DOCKER_REPO=$DOCKER_URL:$IMAGE_TAG"
+          echo -n "DOCKER_REPO=$DOCKER_URL:$IMAGE_TAG"
           docker build -f Dockerfile -t $DOCKER_REPO .
       - name: Push Docker image to dockerhub
         run: |-
