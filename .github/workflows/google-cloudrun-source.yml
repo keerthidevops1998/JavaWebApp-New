@@ -16,7 +16,6 @@ env:
   GCP_GCR_IMAGE_NAME: javawebapp-new-1
   GCP_GCR_REPO_URL: gcr.io/${{ secrets.GCP_PROJECT_ID }}/$GCP_GCR_IMAGE_NAME
   IMAGE_TAG: latest
-  DOCKER_REPO: $DOCKER_URL:$IMAGE_TAG
   
 jobs:
   build:
@@ -38,6 +37,8 @@ jobs:
     name: Publish - Docker Hub
     runs-on: self-hosted
     needs: [build]
+    env: 
+        DOCKER_REPO: ${{ env.DOCKER_URL }}:${{env.IMAGE_TAG }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
