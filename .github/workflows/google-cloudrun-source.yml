@@ -6,7 +6,7 @@ on:
       - "main"
 
 env:
-  DOCKER_REPO: ${{secrets.Docker_REPO}}     # k1998/javawebapp
+  DOCKER_REPO: ${{secrets.DOCKER_REPO}}     # k1998/javawebapp
   DOCKER_USER: ${{secrets.DOCKER_USER}}
   DOCKER_PASS: ${{secrets.DOCKER_PASS}}
   PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
