@@ -37,8 +37,6 @@ jobs:
     name: Publish - Docker Hub
     runs-on: self-hosted
     needs: [build]
-    env: 
-      DOCKER_REPO: $DOCKER_URL+':'+$IMAGE_TAG
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -50,6 +48,7 @@ jobs:
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - name: Build Docker image to dockerhub
         run: |-
+          echo "DOCKER_REPO=${{ env.DOCKER_URL }}:${{ env.IMAGE_URL }}"
           docker build -f Dockerfile -t $DOCKER_REPO .
       - name: Push Docker image to dockerhub
         run: |-
