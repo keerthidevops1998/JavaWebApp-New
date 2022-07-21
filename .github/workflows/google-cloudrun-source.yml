@@ -85,7 +85,6 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v0'
       - name: 'Deploy to Cloud Run'
         run: |-
-          #echo -n "$GCP_PROJECT_IDD=${{secrets.GCP_PROJECT_ID}}"
           gcloud run deploy $GCP_GCR_SVC_NAME \
             --region $REGION \
             --image gcr.io/$GCP_PROJECT_ID/$GCP_GCR_IMAGE_NAME:$IMAGE_TAG \
