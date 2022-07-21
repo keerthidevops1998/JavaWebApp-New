@@ -99,6 +99,7 @@ jobs:
           region: ${{ env.REGION }}
           min-instances: 0
           max-instances: 1
+          port: 80
           # NOTE: If required, update to the appropriate source folder
           image: gcr.io/${{env.GCP_PROJECT_ID}}/${{env.GCP_GCR_IMAGE_NAME}}:${{env.IMAGE_TAG}}
           env_vars: 'NAME="javawebapp-new-1"'
