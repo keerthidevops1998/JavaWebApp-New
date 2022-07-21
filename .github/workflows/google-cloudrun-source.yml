@@ -92,7 +92,7 @@ jobs:
               --min-instances 0 \
               --max-instances 2 \
               --port 80 \
-              --memory 512MiB \
+              --memory 512Mi \
               --allow-unauthenticated \
               --set-env-vars NAME="javawebapp-new-1"
 
