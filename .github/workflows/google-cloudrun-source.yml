@@ -6,7 +6,7 @@ on:
       - "main"
 
 env:
-  DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+  DOCKER_URL: ${{ secrets.DOCKER_REPO }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -16,6 +16,7 @@ env:
   GCP_GCR_IMAGE_NAME: javawebapp-new-1
   GCP_GCR_REPO_URL: gcr.io/${{ secrets.GCP_PROJECT_ID }}/$GCP_GCR_IMAGE_NAME
   IMAGE_TAG: latest
+  DOCKER_REPO: $DOCKER_URL:$IMAGE_TAG
   
 jobs:
   build:
@@ -47,8 +48,8 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - name: Build Docker image to dockerhub
-        run: | 
-          docker build -f Dockerfile -t '$DOCKER_REPO:$IMAGE_TAG' .
+        run: |-
+          docker build -f Dockerfile -t $DOCKER_REPO .
       - name: Push Docker image to dockerhub
         run: |-
           docker push $DOCKER_REPO:$IMAGE_TAG
