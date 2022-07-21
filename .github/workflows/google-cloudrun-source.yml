@@ -85,9 +85,10 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v0'
       - name: 'Deploy to Cloud Run'
         run: |-
-          gcloud run deploy $GCP_CR_SVC_NAME \
+          echo -n "$GCP_PROJECT_IDD=${{secrets.GCP_PROJECT_ID}}"
+          gcloud run deploy $GCP_GCR_SVC_NAME \
             --region $REGION \
-            --image $GCP_GCR_REPO_URL:$IMAGE_TAG \ #gcr.io/$GCP_PROJECT_ID/$GCR_REPO_NAME:$TAG \
+            --image gcr.io/$GCP_PROJECT_IDD/$GCP_GCR_IMAGE_NAME:$IMAGE_TAG \
             --platform managed \
             --set-env-vars NAME="javawebapp-new-1"
 
