@@ -81,28 +81,34 @@ jobs:
         with:
           credentials_json: ${{ env.GCP_CREDS }}
           
-#      - name: 'Setup Cloud SDK'
-#        uses: 'google-github-actions/setup-gcloud@v0'
-#      - name: 'Deploy to Cloud Run'
-#        run: |-
-#          gcloud run deploy $GCP_GCR_SVC_NAME \
-#            --region $REGION \
-#            --image gcr.io/$GCP_PROJECT_ID/$GCP_GCR_IMAGE_NAME:$IMAGE_TAG \
-#            --platform managed \
-#            --set-env-vars NAME="javawebapp-new-1"
+      - name: 'Setup Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: 'Deploy to Cloud Run'
+        run: |-
+          gcloud run deploy $GCP_GCR_SVC_NAME \
+              --region $REGION \
+              --image gcr.io/$GCP_PROJECT_ID/$GCP_GCR_IMAGE_NAME:$IMAGE_TAG \
+              --platform managed \
+              --min-instances 0 \
+              --max-instances 2 \
+              --port 80 \
+              --memory 512MiB \
+              --allow-unauthenticated \
+              --set-env-vars NAME="javawebapp-new-1"
 
-      - name: Deploy to Cloud Run
-        id: deploy
-        uses: google-github-actions/deploy-cloudrun@v0
-        with:
-          service: ${{ env.GCP_CR_SVC_NAME }}
-          region: ${{ env.REGION }}
-          min-instances: 0
-          max-instances: 1
-          port: 80
-          # NOTE: If required, update to the appropriate source folder
-          image: gcr.io/${{env.GCP_PROJECT_ID}}/${{env.GCP_GCR_IMAGE_NAME}}:${{env.IMAGE_TAG}}
-          env_vars: 'NAME="javawebapp-new-1"'
+#      - name: Deploy to Cloud Run
+#        id: deploy
+#        uses: google-github-actions/deploy-cloudrun@v0
+#        with:
+#          service: ${{ env.GCP_CR_SVC_NAME }}
+#          region: ${{ env.REGION }}
+#          min-instances: 0
+#          max-instances: 1
+#          port: 80
+#          allow-unauthenticated: true
+#          # NOTE: If required, update to the appropriate source folder
+#          image: gcr.io/${{env.GCP_PROJECT_ID}}/${{env.GCP_GCR_IMAGE_NAME}}:${{env.IMAGE_TAG}}
+#          env_vars: 'NAME="javawebapp-new-1"'
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
