@@ -46,9 +46,11 @@ jobs:
           
       - name: Login to Docker Hub
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - name: Build and push Docker image to dockerhub
+      - name: Build Docker image to dockerhub
         run: |-
           docker build -f Dockerfile -t $DOCKER_REPO:$IMAGE_TAG .
+      - name: Push Docker image to dockerhub
+        run: |-
           docker push $DOCKER_REPO:$IMAGE_TAG
           
       # Pushes docker image to GCR Container Registry
