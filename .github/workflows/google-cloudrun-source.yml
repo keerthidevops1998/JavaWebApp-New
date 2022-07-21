@@ -9,7 +9,7 @@ env:
   DOCKER_REPO: k1998/javawebapp     # ${{secrets.DOCKER_REPO}} 
   DOCKER_USER: ${{secrets.DOCKER_USER}}
   DOCKER_PASS: ${{secrets.DOCKER_PASS}}
-  GCP_PROJECT_ID: ${{secrets.GCP_PROJECT_ID}}
+  GCP_PROJECT_ID: sixth-storm-355211     # ${{secrets.GCP_PROJECT_ID}}
   GCP_CR_SVC_NAME: javawebapp-new-1 
   GCP_REGION: us-central1-a 
   GCP_CREDS: ${{secrets.GCP_SA_KEY}}
