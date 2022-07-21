@@ -14,7 +14,7 @@ env:
   GCP_REGION: us-central1-a 
   GCP_CREDS: ${{secrets.GCP_SA_KEY}}
   GCP_GCR_IMAGE_NAME: javawebapp-new-1
-  GCP_GCR_REPO_URL: gcr.io/$GCP_PROJECT_ID/$GCP_GCR_IMAGE_NAME
+  #GCP_GCR_REPO_URL: gcr.io/${{env.GCP_PROJECT_ID}}/${{env.GCP_GCR_IMAGE_NAME}}
   IMAGE_TAG: latest
   
 jobs:
@@ -98,7 +98,7 @@ jobs:
           service: ${{ env.GCP_CR_SVC_NAME }}
           region: ${{ env.REGION }}
           # NOTE: If required, update to the appropriate source folder
-          image: ${{env.GCP_GCR_REPO_URL}}:${{env.IMAGE_TAG}}
+          image: gcr.io/${{env.GCP_PROJECT_ID}}/${{env.GCP_GCR_IMAGE_NAME}}:${{env.IMAGE_TAG}}
           env_vars: 'NAME="javawebapp-new-1"'
 
       # If required, use the Cloud Run url output in later steps
